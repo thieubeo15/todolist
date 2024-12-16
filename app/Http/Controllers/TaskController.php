@@ -51,27 +51,35 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Task $task)
     {
-        $task = Task::findOrFail($id); // Tương tự như phương thức `show`
         return view('tasks.edit', compact('task'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'title' => 'required',
             'description' => 'required',
         ]);
 
-        $task = Task::findOrFail($id); // Tìm task dựa trên id
-        $task->update($request->all());
+
+        $completed = $request->has('completed') ? 1 : 0;
+
+        $task = Task::findOrFail($id);
+        $task->update([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'completed' => $completed,
+        ]);
 
         return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
