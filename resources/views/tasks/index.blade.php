@@ -7,6 +7,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th>STT</th>
                 <th>ID</th>
                 <th>Tiêu đề</th>
                 <th>Mô tả</th>
@@ -20,8 +21,8 @@
             ?>
             @foreach ($tasks as $task)
             <tr>
-
                 <td>{{$i}}</td>
+                <td>{{$task->id}}</td>
                 <td>{{ $task->title }}</td>
                 <td>{{ $task->description }}</td>
                 <td>{{ $task->completed ? 'Hoàn thành' : 'Chưa hoàn thành' }}</td>
@@ -39,8 +40,14 @@
             <?php
             $i++;
             ?>
+
             @endforeach
+
         </tbody>
     </table>
+    <div class="d-flex justify-content-end">
+        {{ $tasks->links('pagination::bootstrap-4')}}
+    </div>
+
 </div>
 @endsection
